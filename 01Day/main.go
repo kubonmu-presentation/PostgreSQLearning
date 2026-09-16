@@ -23,6 +23,7 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/health", handler.HealthHandler)
+	router.GET("/users", handler.ListUsers(db))
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal("서버 실행 실패:", err)

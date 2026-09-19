@@ -4,8 +4,10 @@ package main
 import (
 	"log"
 
-	"day01/database"
-	"day01/handler"
+	"day01/internal/database"
+	"day01/internal/handler"
+	"day01/internal/service"
+	"day01/internal/store"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,9 +23,13 @@ func main() {
 	log.Println("PostgreSQL 연결 성공!")
 
 	router := gin.Default()
+	userStore := store.NewUserStore(db)
+	userService := service.NewUserService(userStore)
+	userHandler := handler.NewUserHandler(userService)
 
 	router.GET("/health", handler.HealthHandler)
-	router.GET("/users", handler.ListUsers(db))
+	router.GET("/users", userHandler.ListUsers)
+	router.POST("/users", userHandler.CreateUser)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal("서버 실행 실패:", err)

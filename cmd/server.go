@@ -18,7 +18,11 @@ func main() {
 	if err != nil {
 		log.Fatal("DB 연결실패:", err) // log.Fatal는 로그를 출력하고 프로그램을 종료시킴
 	}
-	defer db.Close() // defer를 사용하는 이유는 성공적으로 연결된 DB를 프로그램 종료 시점에 닫아주기 위함
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatal("DB 드라이버 연결 실패:", err)
+	}
+	defer sqlDB.Close()
 
 	log.Println("PostgreSQL 연결 성공!")
 

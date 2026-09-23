@@ -3,12 +3,15 @@ package store
 import (
 	"context"
 	"day01/internal/model"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type UserStore struct{ db *pgxpool.Pool }
 
-func NewUserStore(db *pgxpool.Pool) *UserStore { return &UserStore{db: db} }
+func NewUserStore(db *pgxpool.Pool) *UserStore {
+	return &UserStore{db: db}
+}
 func (s *UserStore) List(ctx context.Context) ([]model.User, error) {
 	rows, err := s.db.Query(ctx, `SELECT id, username, email, create_at FROM users ORDER BY id`)
 	if err != nil {

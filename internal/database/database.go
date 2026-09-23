@@ -27,7 +27,8 @@ func Connect() (*pgxpool.Pool, error) {
 		return nil, err
 	}
 
-	if err := db.Ping(context.Background()); err != nil { // context.Background() 얘는 할일을 하고 간다. 서버와의 통신 용도로 c.Request.Context()는 사용불가
+	if err := db.Ping(context.Background()); err != nil { // context.Background() 얘는 할일을 하고 간다. 서버와의 통신
+		// 용도로 c.Request.Context()는 사용불가
 		db.Close()
 		return nil, err
 	}

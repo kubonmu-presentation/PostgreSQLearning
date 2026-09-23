@@ -6,7 +6,6 @@ import (
 
 	"day01/internal/database"
 	"day01/internal/handler"
-	"day01/internal/service"
 	"day01/internal/store"
 
 	"github.com/gin-gonic/gin"
@@ -24,8 +23,7 @@ func main() {
 
 	router := gin.Default()
 	userStore := store.NewUserStore(db)
-	userService := service.NewUserService(userStore)
-	userHandler := handler.NewUserHandler(userService)
+	userHandler := handler.NewUserHandler(userStore)
 
 	router.GET("/health", handler.HealthHandler)
 	router.GET("/users", userHandler.ListUsers)
